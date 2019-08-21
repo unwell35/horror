@@ -121,14 +121,12 @@ client.on('message', message => {
         maxUses: 5,
         maxAge: 86400
     }).then(invite => {
-message.author.send(invite.url);
+message.author.send(invite.url)}).catch(e => message.channel.send(`**يجب عليك فتح خاصك **`));
 message.author.send(`**مدة الرابط : يـوم
 عدد استخدامات الرابط : 5**`);
 message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة**");
-}).catch(e => message.channel.send(`**يجب عليك فتح خاصك **`));
 }
 });
-
 client.on('message', message => {
   if(!message.channel.guild) return;
 var prefix = "-";
