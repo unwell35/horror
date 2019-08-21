@@ -362,8 +362,8 @@ client.on('voiceStateUpdate', (old, now) => {
  const channel = client.channels.get('570303330920824832');
  const currentSize = channel.guild.members.filter(m => m.voiceChannel).size;
   const size = channel.name.match(/\[\s(\d+)\s\]/);
-  if (!size) return channel.setName(`Horror Voice : ${currentSize}`);
-  if (currentSize !== size) channel.setName(`Horror Voice : ${currentSize}`);
+  if (!size) return channel.setName(`Horror : ${currentSize}`);
+  if (currentSize !== size) channel.setName(`Horror : ${currentSize}`);
 });
 
             client.login(process.env.BOT_TOKEN);
