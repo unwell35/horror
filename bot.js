@@ -123,7 +123,7 @@ client.on('message', message => {
         maxUses: 5,
         maxAge: 86400
     }).then(invite =>
-      message.author.sendMessage(invite.url) return message.channel.send('**خاصك مقفل .**').then(m => m.delete(5000));
+      message.author.sendMessage(invite.url)
     )
   message.channel.send("**:link:.تم ارسال الرابط برسالة خاصة**")
 
