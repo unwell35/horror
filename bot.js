@@ -117,21 +117,16 @@ m.sendMessage(args)
 
 client.on('message', message => {
     if (message.content.startsWith("رابط")) {
-
   message.channel.createInvite({
-        thing: true,
         maxUses: 5,
         maxAge: 86400
-    }).then(invite =>
-      message.author.sendMessage(invite.url)
-    )
-  message.channel.send("**:link:.تم ارسال الرابط برسالة خاصة**")
-
+    }).then(invite => {
+message.author.send(invite.url);
 message.author.send(`**مدة الرابط : يـوم
-عدد استخدامات الرابط : 5**`)
-
-
-    }
+عدد استخدامات الرابط : 5**`);
+message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة**");
+}).catch(e => message.channel.send(`**يجب عليك فتح خاصك **`));
+}
 });
 
 client.on('message', message => {
