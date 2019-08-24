@@ -11,6 +11,18 @@ actions: 0
 }}
 })
 
+client.on('message', async (message) => {
+  if (message.author.bot || !message.guild) return;
+  let args = message.content.split(' ');
+  let prefix = '-';
+  if (args[0] == `${prefix}clear`) {
+    if (!message.member.hasPermission('MANAGE_MESSAGES') || !message.guild.me.hasPermission('MANAGE_MESSAGES')) return;
+    if (!args[1]) return message.reply(`Usage , ${args[0]} [word]`);
+    let fetched = await message.channel.fetchMessages();
+    let filtered = await fetched.filter(m => m.content.includes(args.slice(1).join(' ')));
+    await message.channel.bulkDelete(filtered);
+  }
+});
 
 client.on('guildMemberRemove', alpha => {
 alpha.guild.fetchAuditLogs().then( ac => {
