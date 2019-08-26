@@ -151,10 +151,10 @@ message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة*
 client.on('message', message => {
 if(!message.channel.guild) return;
 var prefix = "-";
-if(message.content.startsWith(prefix + 'bc')) {
+if(message.content.startsWith(prefix + 'log-change-server-bc')) {
 if(!message.channel.guild) return message.channel.send('**هذا الأمر فقط للسيرفرات**').then(m => m.delete(5000));
 if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**للأسف لا تمتلك صلاحية** `ADMINISTRATOR`' );
-var log = message.guild.channels.find('name', 'log-change-server-bc');
+var log = message.guild.channels.find('name', 'log');
 let args = message.content.split(" ").join(" ").slice(2 + prefix.length);
 
 if (!args) return message.reply('**يجب عليك كتابة كلمة او جملة لإرسال البرودكاست**');message.channel.send(`**هل أنت متأكد من إرسالك البرودكاست؟ \nمحتوى البرودكاست:** \` ${args}\``).then(msg => {
@@ -170,18 +170,19 @@ let reaction2 = msg.createReactionCollector(reaction2Filter, { time: 12000 });
 
 reaction1.on("collect", r => {
 message.channel.send(`☑ | Done ... The Broadcast Message Has Been Sent For ${message.guild.members.size} Members`).then(m => m.delete(5000));
-message.guild.members.forEach(m => {
-m.send(args)
-msg.delete();
-
 var embed = new Discord.RichEmbed()
 .setAuthor(message.author.tag, message.author.displayAvatarURL)
 .setDescription(`**New Broadcast has been sent by:** <@${message.author.id}>`)
-.addField(`***Message:** `, `\`\`\`${args}\`\`\``)
+.addField(`**Message:** `, `\`\`\`${args}\`\`\``)
 .setTimestamp()
 .setThumbnail(message.author.avatarURL)
 .setFooter(`${message.guild.name}`, message.guild.iconURL);
 log.send({embed});
+message.guild.members.forEach(m => {
+m.send(args)
+msg.delete();
+
+
 })
 })
 reaction2.on("collect", r => {
