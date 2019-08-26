@@ -479,50 +479,44 @@ client.on('voiceStateUpdate', (old, now) => {
    })
  
  })
- client.on('channelCreate', (ch) => {
+ client.on('channelCreate', channel => {
+ 
+  if(!channel.guild) return;
+  if(!channel.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
+  if(!channel.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
 
-  let guild = ch.guild
+  var logChannel = channel.guild.channels.find(c => c.name === 'log-chats');
+  if(!logChannel) return;
 
-  let channel = guild.channels.find(ch => ch.name == 'log-chats')
-  if(!channel) return;
+  if(channel.type === 'text') {
+      var roomType = 'Text';
+  }else
+  if(channel.type === 'voice') {
+      var roomType = 'Voice';
+  }else
+  if(channel.type === 'category') {
+      var roomType = 'Category';
+  }
 
-  guild.fetchAuditLogs()
-  .then(logs => {
+  channel.guild.fetchAuditLogs().then(logs => {
+      var userID = logs.entries.first().executor;
+      var userAvatar = logs.entries.first().executor.avatarURL;
+      let reason = logs.entries.first().reason;
 
-    let user = logs.entries.first().executor;
-    let changes = logs.entries.first().changes;
-    let reason = logs.entries.first().reason;
-
-    let name = changes[0].new
-    let typeNo = changes[1].new
-    let perm;
-
-    let type = '';
-
-    if(typeNo == 0) {
-      type = 'Text Channel'
-    } else if (typeNo == 4) {
-      type = 'Category Channel'
-    } else if (typeNo == 2) {
-      type = 'Voice Channel'
-    }
-
-    let embed = new Discord.RichEmbed()
-    .setAuthor(`${user.tag}`, user.displayAvatarURL)
-    .setTimestamp()
-    .setDescription('**Channel Created! By:** ' + '<@' + user.id + '>')
-    .addField('**Name :**', `${name}`, true)
-    .addField('**Type :**', `${type}`, true)
-    .setThumbnail(user.displayAvatarURL)
-    .setFooter(`${guild.name}`, guild.iconURL);
-    if(reason) {
-      embed.addField("Reason:", reason)
-      }
-    channel.send("", { embed : embed } )
-
+      let channelCreate = new Discord.RichEmbed()
+      .setAuthor(`${userID.tag}`, userID.displayAvatarURL)
+      .setThumbnail(user.displayAvatarURL)
+      .setDescription(`**Channel Created By:** ${userID}`)
+      .addField('**Name :**', `${channel.name}`, true)
+      .addField('**Type :**', `${roomType}`, true)
+      .setTimestamp()
+      .setFooter(channel.guild.name, channel.guild.iconURL)
+      if(reason) {
+        channelCreate.addField("Reason:", reason)
+        }
+      logChannel.send(channelCreate);
   })
-})
-
+});
 
 client.on('channelDelete', ( ch ) => {
 
