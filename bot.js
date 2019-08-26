@@ -785,6 +785,7 @@ client.setTimeout(() => {
   })
   .then(audit => {
     let exec = audit.entries.map(a => a.executor.username);
+           let reason = logs.entries.first().reason;
     try {
          let log = guild.channels.find(`name`, "log-ban-kick");
         if(!channel) return;
@@ -795,6 +796,9 @@ client.setTimeout(() => {
         .setDescription(`${myUser.tag} **banned from the server by:** ${exec}`)
         .setTimestamp()
         .setFooter(`${guild.name}`, guild.iconURL);
+                         if(reason) {
+           embed.addField("Reason:", reason)
+           }
         log.send(Banninglolembed).catch(e => {
           console.log(e);
         });
