@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const RichEmbed = require("discord.js");
 const { Client, Util } = require('discord.js');
+const dateformat = require('dateformat');
+const bot = new Discord.Client();
 const fs = require('fs');
 const antic = JSON.parse(fs.readFileSync('./antic.json', 'utf8'));
 client.on("message", message =>{
@@ -391,5 +393,69 @@ client.on('voiceStateUpdate', (old, now) => {
   if (!size) return channel.setName(`Horror : ${currentSize}`);
   if (currentSize !== size) channel.setName(`Horror : ${currentSize}`);
 });
+
+bot.on(`guildMemberUpdate`, async (om, nm) => {
+  if(!om || !om.id) return;
+
+  const channel = nm.guild.channels.find(ch => ch.name == 'log-roles')
+    const channell = nm.guild.channels.find(ch => ch.name == 'log-mute-chat-voice-move')
+  if(!channel) return console.log('I can\'t find it');
+
+
+
+    om.guild.fetchAuditLogs()
+    .then(async logs => {
+      let user = logs.entries.first().executor
+      let changes = logs.entries.first().changes
+      let reason = logs.entries.first().reason;
+
+
+      if(om.roles.size < nm.roles.size) {
+        let role = changes[0].new
+        let name = role[0].name
+        let id = role[0].id
+        let embed = new Discord.RichEmbed()
+
+        .setAuthor(`${nm.user.tag}`, nm.user.displayAvatarURL)
+        .setTimestamp()
+        .setDescription(`:white_check_mark: ${nm} was given the \`${name}\` role by ${user}`)
+        if(reason) {
+          embed.addField("Reason", reason)
+          }
+        channel.send("", { embed : embed } )
+
+}
+    if(om.roles.size > nm.roles.size) {
+      let role = changes[0].new
+      let name = role[0].name
+      let id = role[0].id
+
+      let embed = new Discord.RichEmbed()
+      .setAuthor(`${nm.user.tag}`, nm.user.displayAvatarURL)
+      .setTimestamp()
+      .setDescription(`:negative_squared_cross_mark: ${nm} was removed from the \`${name}\` role by ${user}`)
+      if(reason) {
+        embed.addField("Reason", reason)
+        }
+      channel.send("", { embed : embed } )
+    }
+
+    if(om.nickname !== nm.nickname) {
+
+      let embed = new Discord.RichEmbed()
+      .setAuthor(`${nm.user.tag}`, nm.user.displayAvatarURL)
+      .setTimestamp()
+      .setDescription(`:white_check_mark: ${nm} nickname was changed by ${user}`)
+      .addField('Old Nickname', `\`\`\`${om.nickname}\`\`\``)
+      .addBlankField()
+      .addField('New Nickname', `\`\`\`${nm.nickname}\`\`\``)
+
+      channell.send("", { embed : embed } )
+    }
+
+  })
+
+})
+
 
             client.login(process.env.BOT_TOKEN);
