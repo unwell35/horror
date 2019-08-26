@@ -435,7 +435,7 @@ client.on('voiceStateUpdate', (old, now) => {
          .setTimestamp()
          .setDescription(`:white_check_mark: ${nm} was given the \`${name}\` role by ${user}`)
          .setThumbnail(nm.user.displayAvatarURL)
-         .setFooter(`${member.guild.name}`, member.guild.displayAvatarURL);
+         .setFooter(`${nm.guild.name}`, nm.guild.displayAvatarURL);
 
                  if(reason) {
            embed.addField("Reason:", reason)
@@ -453,7 +453,7 @@ client.on('voiceStateUpdate', (old, now) => {
        .setTimestamp()
        .setDescription(`:no_entry: ${nm} was removed from the \`${name}\` role by ${user}`)
        .setThumbnail(nm.user.displayAvatarURL)
-       .setFooter(`${member.guild.name}`, member.guild.displayAvatarURL);
+       .setFooter(`${nm.guild.name}`, nm.guild.displayAvatarURL);
 
                if(reason) {
            embed.addField("Reason:", reason)
