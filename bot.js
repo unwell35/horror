@@ -788,7 +788,7 @@ client.on('guildBanAdd', (guild, user) => {
   guild.fetchAuditLogs().then(logs => {
       var userID = logs.entries.first().executor.id;
       var userAvatar = logs.entries.first().executor.avatarURL;
-      var reason = logs.entries.first().reason;
+      let reason = logs.entries.first().reason;
 
 
       if(userID === client.user.id) return;
@@ -796,6 +796,7 @@ client.on('guildBanAdd', (guild, user) => {
       let banInfo = new Discord.RichEmbed()
       .setAuthor(`${user.tag}`, user.displayAvatarURL)
       .setDescription(`<@${user.id}> **banned from the server By:** <@${userID}>`)
+      .setThumbnail(userID.displayAvatarURL)
       .setTimestamp()
       .setFooter(`${guild.name}`, guild.iconURL);
       if(reason) {
