@@ -799,7 +799,7 @@ client.on('guildBanAdd', (guild, user) => {
       .setTimestamp()
       .setFooter(`${guild.name}`, guild.iconURL);
       if(reason) {
-        embed.addField("Reason:", reason)
+        banInfo.addField("Reason:", reason)
         }
       logChannel.send(banInfo);
   })
