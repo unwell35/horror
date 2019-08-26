@@ -796,11 +796,9 @@ client.on('guildBanAdd', (guild, user) => {
       .setAuthor(`${user.tag}`, user.displayAvatarURL)
       .setDescription(`<@${user.id}> **banned from the server by:** ${userID}`)
       .setThumbnail(userID.displayAvatarURL)
+      .addField("Reason:", reason)
       .setTimestamp()
       .setFooter(`${guild.name}`, guild.iconURL);
-      if(reason) {
-        banInfo.addField("Reason:", reason)
-        }
       logChannel.send(banInfo);
   })
 });
