@@ -460,13 +460,15 @@ client.on('voiceStateUpdate', (old, now) => {
        .setTimestamp()
        .setDescription(`:white_check_mark: ${nm} nickname was changed by ${user}`)
        .addField('Old Nickname', `\`\`\`${om.nickname}\`\`\``)
-       .addBlankField()
        .addField('New Nickname', `\`\`\`${nm.nickname}\`\`\``)
- 
+       .setThumbnail(nm.user.displayAvatarURL)
+       .setFooter(`${nm.guild.name}`, nm.guild.avatarURL);
+
        channell.send("", { embed : embed } )
      }
  
    })
  
  })
+
             client.login(process.env.BOT_TOKEN);
