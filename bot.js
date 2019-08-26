@@ -521,7 +521,7 @@ client.on('channelDelete', ( ch ) => {
       guild = ch.guild
 
 
-  const channel = guild.channels.find(ch => ch.name == 'log-chats')
+  const channel = ch.guild.channels.find(ch => ch.name == 'log-chats')
   if(!channel) return;
 
   guild.fetchAuditLogs()
