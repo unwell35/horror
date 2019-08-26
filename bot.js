@@ -459,8 +459,8 @@ client.on('voiceStateUpdate', (old, now) => {
        .setAuthor(`${nm.user.tag}`, nm.user.displayAvatarURL)
        .setTimestamp()
        .setDescription(`:white_check_mark: ${nm} **Nickname was changed by:** ${user}`)
-       .addField('Old Nickname', `\`\`\`${om.nickname}\`\`\``)
-       .addField('New Nickname', `\`\`\`${nm.nickname}\`\`\``)
+       .addField('**Old Nickname**', `\`\`${om.nickname}\`\``)
+       .addField('**New Nickname**', `\`\`${nm.nickname}\`\``)
        .setThumbnail(nm.user.displayAvatarURL)
        .setFooter(`${nm.guild.name}`, nm.guild.avatarURL);
 
@@ -470,4 +470,6 @@ client.on('voiceStateUpdate', (old, now) => {
    })
  
  })
+
+
             client.login(process.env.BOT_TOKEN);
