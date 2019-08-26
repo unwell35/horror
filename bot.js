@@ -786,16 +786,15 @@ client.on('guildBanAdd', (guild, user) => {
   if(!logChannel) return;
 
   guild.fetchAuditLogs().then(logs => {
-      var userID = logs.entries.first().executor.id;
-      var userAvatar = logs.entries.first().executor.avatarURL;
-      let reason = logs.entries.first().reason;
+      var userID = logs.entries.first().executor;
+      var reason = logs.entries.first().reason;
 
 
       if(userID === client.user.id) return;
 
       let banInfo = new Discord.RichEmbed()
       .setAuthor(`${user.tag}`, user.displayAvatarURL)
-      .setDescription(`<@${user.id}> **banned from the server By:** <@${userID}>`)
+      .setDescription(`<@${user.id}> **banned from the server by:** ${userID}`)
       .setThumbnail(userID.displayAvatarURL)
       .setTimestamp()
       .setFooter(`${guild.name}`, guild.iconURL);
@@ -805,5 +804,6 @@ client.on('guildBanAdd', (guild, user) => {
       logChannel.send(banInfo);
   })
 });
+
 
             client.login(process.env.BOT_TOKEN);
