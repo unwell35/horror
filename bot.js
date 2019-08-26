@@ -786,8 +786,8 @@ client.setTimeout(() => {
   .then(audit => {
     let exec = audit.entries.map(a => a.executor.username);
     try {
-      const channel = guild.channels.find(ch => ch.name == 'log-ban-kick')
-      if(!channel) return;
+         let log = guild.channels.find(`name`, "log-ban-kick");
+        if(!channel) return;
       client.fetchUser(member.id).then(myUser => {
         let Banninglolembed = new Discord.RichEmbed()
         .setAuthor(`${member.exec.tag}`, member.exec.displayAvatarURL)
@@ -805,4 +805,5 @@ client.setTimeout(() => {
   });
 }, 1000);
 });
+
             client.login(process.env.BOT_TOKEN);
