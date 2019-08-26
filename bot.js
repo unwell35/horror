@@ -824,7 +824,7 @@ client.on('messageDelete', (msg) => {
       const embed = new Discord.RichEmbed()
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL)
       .setTimestamp()
-      .setDescription(`:wastebasket: **Message Deleted in ${msg.channel}** ${user == msg.author ? '' : ` **by**: ${user}`}`)
+      .setDescription(`:wastebasket: **Message Deleted ${user == msg.author ? '' : ` **by**: ${user}`}`)
       .addField('**Message:**', `\`\`\`${msg.cleanContent}\`\`\``)
       .setThumbnail(msg.author.displayAvatarURL)
       .setFooter(`${guild.name}`, guild.iconURL);
@@ -857,7 +857,7 @@ client.on('messageUpdate', (oldmsg, newmsg) => {
       const embed = new Discord.RichEmbed()
       .setAuthor(`${newmsg.author.tag}`, newmsg.author.displayAvatarURL)
       .setTimestamp()
-      .setDescription(`:pencil2:  **Message Updated in ${oldmsg.channel}**`)
+      .setDescription(`:pencil2:  **Message Updated `)
       .addField('**Old Message:**', `\`\`\`${oldmsg.cleanContent}\`\`\``)
       .addField('**New Message:**', `\`\`\`${newmsg.cleanContent}\`\`\``)
       .setThumbnail(newmsg.author.displayAvatarURL)
