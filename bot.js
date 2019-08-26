@@ -471,8 +471,6 @@ client.on('voiceStateUpdate', (old, now) => {
  
  })
  client.on('channelCreate', (ch) => {
-  console.log(ch);
-
   let guild = ch.guild
 
   let channel = guild.channels.find(ch => ch.name == 'log')
