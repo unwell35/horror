@@ -986,7 +986,6 @@ client.on('guildMemberAdd', member => {
   .setDescription(`<@${member.user.id}> **joined the server.**`)
   .addField('**Days In Discord:**', `${Days(member.user.createdAt)}`)
   .setTimestamp()
-  .setFooter(`${guild.name}`, guild.iconURL);
  
   logChannel.send(newMember);
 });
@@ -1006,7 +1005,6 @@ client.on('guildMemberRemove', member => {
   .setThumbnail(member.user.avatarURL)
   .setDescription(`<@${member.user.id}> **Left the server**`)
   .setTimestamp()
-  .setFooter(`${guild.name}`, guild.iconURL);
  
   logChannel.send(leaveMember);
 });
