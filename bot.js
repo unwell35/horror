@@ -983,7 +983,7 @@ client.on('guildMemberAdd', member => {
   let newMember = new Discord.RichEmbed()
   .setAuthor(member.user.tag, member.user.avatarURL)
   .setThumbnail(member.user.avatarURL)
-  .setDescription(`<@${member.user.id}> **joined the server.`)
+  .setDescription(`<@${member.user.id}> **joined the server.**`)
   .addField('**Days In Discord:**', `${Days(member.user.createdAt)}`)
   .setTimestamp()
   .setFooter(`${guild.name}`, guild.iconURL);
@@ -1004,7 +1004,7 @@ client.on('guildMemberRemove', member => {
   let leaveMember = new Discord.RichEmbed()
   .setAuthor(member.user.tag, member.user.avatarURL)
   .setThumbnail(member.user.avatarURL)
-  .setDescription(`<@${member.user.id}> *Left the server`)
+  .setDescription(`<@${member.user.id}> **Left the server**`)
   .setTimestamp()
   .setFooter(`${guild.name}`, guild.iconURL);
  
