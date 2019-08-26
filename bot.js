@@ -805,6 +805,27 @@ client.on('guildBanAdd', (guild, user) => {
       logChannel.send(banInfo);
   })
 });
+client.on('guildBanRemove', (guild, user) => {
+  if(!guild.member(client.user).hasPermission('EMBED_LINKS')) return;
+  if(!guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
+
+  var logChannel = guild.channels.find(c => c.name === 'log-ban-kick');
+  if(!logChannel) return;
+
+  guild.fetchAuditLogs().then(logs => {
+      var userID = logs.entries.first().executor;
+      var userAvatar = logs.entries.first().executor.avatarURL;
+
+      let unBanInfo = new Discord.RichEmbed()
+      .setAuthor(`${userID.tag}`, userID.displayAvatarURL)
+      .setThumbnail(userID.displayAvatarURL)
+      .setDescription(` <@${user.id}>**Unbanned by:** ${userID}`)
+      .setTimestamp()
+      .setFooter(guild.name, guild.iconURL)
+
+      logChannel.send(unBanInfo);
+  })
+});
 client.on('messageDelete', (msg) => {
 
   var guild;
