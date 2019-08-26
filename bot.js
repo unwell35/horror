@@ -401,7 +401,7 @@ client.on('voiceStateUpdate', (old, now) => {
   if (currentSize !== size) channel.setName(`Horror : ${currentSize}`);
 });
 
-bot.on(`guildMemberUpdate`, async (om, nm) => {
+client.on(`guildMemberUpdate`, async (om, nm) => {
   if(!om || !om.id) return;
 
   const channel = nm.guild.channels.find(ch => ch.name == 'log-roles')
