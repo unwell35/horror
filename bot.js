@@ -501,10 +501,11 @@ client.on('voiceStateUpdate', (old, now) => {
     let embed = new Discord.RichEmbed()
     .setAuthor(`${user.tag}`, user.displayAvatarURL)
     .setTimestamp()
-    .setDescription('**Channel Created! By:** ' + '<@' + user.id + '>')
+    .setDescription('**Channel Created By:** ' + '<@' + user.id + '>')
     .addField('**Name :**', `${name}`, true)
     .addField('**Type :**', `${type}`, true)
     .setThumbnail(user.displayAvatarURL)
+     .setFooter(`${guild.name}`, guild.avatarURL);
 /* else if(typeNo === 2) {
     embed.addField('BitRate :', `${bit}`, true)
   }*/
