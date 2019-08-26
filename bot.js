@@ -482,7 +482,6 @@ client.on('voiceStateUpdate', (old, now) => {
     let user = logs.entries.first().executor;
     let changes = logs.entries.first().changes;
 
-    console.log(changes);
 
     let name = changes[0].new
     let typeNo = changes[1].new
