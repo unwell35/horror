@@ -470,6 +470,52 @@ client.on('voiceStateUpdate', (old, now) => {
    })
  
  })
+ client.on('channelCreate', (ch) => {
+  console.log(ch);
 
+  let guild = ch.guild
+
+  let channel = guild.channels.find(ch => ch.name == 'log')
+  if(!channel) return;
+
+  guild.fetchAuditLogs()
+  .then(logs => {
+
+    let user = logs.entries.first().executor;
+    let changes = logs.entries.first().changes;
+
+    console.log(changes);
+
+    let name = changes[0].new
+    let typeNo = changes[1].new
+    let perm;
+
+    let type = '';
+
+    if(typeNo == 0) {
+      type = 'Text Channel'
+    } else if (typeNo == 4) {
+      type = 'Category Channel'
+    } else if (typeNo == 2) {
+      type = 'Voice Channel'
+    }
+
+    let embed = new Discord.RichEmbed()
+    .setAuthor(`${user.tag}`, user.displayAvatarURL)
+    .setTimestamp()
+    .setDescription('**Channel Created! By:** ' + '<@' + user.id + '>')
+    .addField('**Name :**', `${name}`, true)
+    .addField('**Type :**', `${type}`, true)
+    .setThumbnail(user.displayAvatarURL)
+   if(typeNo == 0) {
+    embed.addField('**NSFW :**', `${nsfw}`, true)
+    .setFooter(`${guild.name}`, guild.avatarURL);
+   }/* else if(typeNo === 2) {
+    embed.addField('BitRate :', `${bit}`, true)
+  }*/
+    channel.send("", { embed : embed } )
+
+  })
+})
 
             client.login(process.env.BOT_TOKEN);
