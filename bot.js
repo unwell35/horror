@@ -471,6 +471,7 @@ client.on('voiceStateUpdate', (old, now) => {
  
  })
  client.on('channelCreate', (ch) => {
+
   let guild = ch.guild
 
   let channel = guild.channels.find(ch => ch.name == 'log-chats')
@@ -481,7 +482,7 @@ client.on('voiceStateUpdate', (old, now) => {
 
     let user = logs.entries.first().executor;
     let changes = logs.entries.first().changes;
-
+    let reason = logs.entries.first().reason;
 
     let name = changes[0].new
     let typeNo = changes[1].new
@@ -500,18 +501,19 @@ client.on('voiceStateUpdate', (old, now) => {
     let embed = new Discord.RichEmbed()
     .setAuthor(`${user.tag}`, user.displayAvatarURL)
     .setTimestamp()
-    .setDescription('**Channel Created By:** ' + '<@' + user.id + '>')
+    .setDescription('**Channel Created! By:** ' + '<@' + user.id + '>')
     .addField('**Name :**', `${name}`, true)
     .addField('**Type :**', `${type}`, true)
     .setThumbnail(user.displayAvatarURL)
-     .setFooter(`${guild.name}`, guild.avatarURL);
-/* else if(typeNo === 2) {
-    embed.addField('BitRate :', `${bit}`, true)
-  }*/
+    .setFooter(`${guild.name}`, guild.avatarURL);
+    if(reason) {
+      embed.addField("Reason:", reason)
+      }
     channel.send("", { embed : embed } )
 
   })
 })
+
 client.on('channelUpdate', (oC, nC) => {
 
   //console.log(nC);
@@ -531,7 +533,7 @@ client.on('channelUpdate', (oC, nC) => {
 
 
     const embed = new Discord.RichEmbed()
-    .setAuthor(`${guild.name}`)
+    .setAuthor(`${user.tag}`, user.displayAvatarURL)
     .setTimestamp()
 
     if(logs.entries.first().action == 'CHANNEL_OVERWRITE_CREATE') {
