@@ -700,14 +700,14 @@ client.on('roleUpdate', (oR, nR) => {
               let text = '';
               perms.added.map(p => text += `${p}\n`)
               embed.setAuthor(`${user.tag}`, user.displayAvatarURL)
-              embed.addField('Permissions Added:', `\`\`\`${text}\`\`\``);
+              embed.addField('**Permissions Added:**', `\`\`\`${text}\`\`\``);
             }
 
             if(perms.removed[0]) {
               let text = '';
               perms.removed.map(p => text += `${p}\n`)
               embed.setAuthor(`${user.tag}`, user.displayAvatarURL)
-              embed.addField('Permissions Removed:', `\`\`\`${text}\`\`\``);
+              embed.addField('**Permissions Removed:**', `\`\`\`${text}\`\`\``);
             }
 
             embed.setColor(nR.hexColor)
