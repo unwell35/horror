@@ -479,6 +479,49 @@ client.on('voiceStateUpdate', (old, now) => {
    })
  
  })
+ client.on('channelCreate', (ch) => {
+
+  let guild = ch.guild
+
+  let channel = guild.channels.find(ch => ch.name == 'log-chats')
+  if(!channel) return;
+
+  guild.fetchAuditLogs()
+  .then(logs => {
+
+    let user = logs.entries.first().executor;
+    let changes = logs.entries.first().changes;
+    let reason = logs.entries.first().reason;
+
+    let name = changes[0].new
+    let typeNo = changes[1].new
+    let perm;
+
+    let type = '';
+
+    if(typeNo == 0) {
+      type = 'Text Channel'
+    } else if (typeNo == 4) {
+      type = 'Category Channel'
+    } else if (typeNo == 2) {
+      type = 'Voice Channel'
+    }
+
+    let embed = new Discord.RichEmbed()
+    .setAuthor(`${user.tag}`, user.displayAvatarURL)
+    .setTimestamp()
+    .setDescription('**Channel Created! By:** ' + '<@' + user.id + '>')
+    .addField('**Name :**', `${name}`, true)
+    .addField('**Type :**', `${type}`, true)
+    .setThumbnail(user.displayAvatarURL)
+    .setFooter(`${guild.name}`, guild.iconURL);
+    if(reason) {
+      embed.addField("Reason:", reason)
+      }
+    channel.send("", { embed : embed } )
+
+  })
+})
 
 
 client.on('channelDelete', ( ch ) => {
@@ -1072,36 +1115,5 @@ client.on('guildMemberRemove', (member) => {
   })
 
 })
-client.on('channelDelete', channel => {
-  if(!channel.guild) return;
-  if(!channel.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
-  if(!channel.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
 
-  var logChannel = channel.guild.channels.find(c => c.name === 'log-chats');
-  if(!logChannel) return;
-
-  if(channel.type === 'text') {
-      var roomType = 'Text';
-  }else
-  if(channel.type === 'voice') {
-      var roomType = 'Voice';
-  }else
-  if(channel.type === 'category') {
-      var roomType = 'Category';
-  }
-
-  channel.guild.fetchAuditLogs().then(logs => {
-      var userID = logs.entries.first().executor;
-      var userAvatar = logs.entries.first().executor.avatarURL;
-
-      let channelDelete = new Discord.RichEmbed()
-      .setAuthor(`${userID.tag}`, userID.displayAvatarURL)
-      .setThumbnail(userID.displayAvatarURL)
-      .setDescription(`${roomType} **Channel** ${channel.name} **has been deleted by:** ${userID}`)
-      .setTimestamp()
-      .setFooter(channel.guild.name, channel.guild.iconURL)
-
-      logChannel.send(channelDelete);
-  })
-});
             client.login(process.env.BOT_TOKEN);
