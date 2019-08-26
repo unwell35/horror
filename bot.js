@@ -5,6 +5,10 @@ const { Client, Util } = require('discord.js');
 const dateformat = require('dateformat');
 const bot = new Discord.Client();
 const fs = require('fs');
+bot.on(`ready`, () => {
+  console.log(`Log Bot | 0%`);
+  console.log(bot.user.id);
+})
 const antic = JSON.parse(fs.readFileSync('./antic.json', 'utf8'));
 client.on("message", message =>{
 if(!antic[message.author.id]) {
