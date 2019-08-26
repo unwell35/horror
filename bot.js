@@ -1025,9 +1025,9 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 // Server Muted Voice
       if(voiceOld.serverMute === false && voiceNew.serverMute === true) {
           let serverMutev = new Discord.RichEmbed()
-          .setAuthor(userID.tag, userID.avatarURL)
+          .setAuthor(voiceOld.user.tag, voiceOld.user.avatarURL)
           .setDescription(`**Voice state of** <@${voiceOld.user.id}> **has been updated. by:** <@${userID}> **Channel:** \`\`${voiceOld.voiceChannel.name}\`\``)
-          .addField(':microphone2: **Server Mute**', `True`)
+          .addField(':microphone2: **Server Mute**', `**True**`)
           .setTimestamp()
           .setFooter(userTag, userAvatar)
 
@@ -1037,9 +1037,9 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 // Server UnMuted Voice
       if(voiceOld.serverMute === true && voiceNew.serverMute === false) {
           let serverUnmutev = new Discord.RichEmbed()
-          .setAuthor(userID.tag, userID.avatarURL)
+          .setAuthor(voiceOld.user.tag, voiceOld.user.avatarURL)
           .setDescription(`**Voice state of** <@${voiceOld.user.id}> **has been updated. by:** <@${userID}> **Channel:** \`\`${voiceOld.voiceChannel.name}\`\``)
-          .addField(':microphone2: **Server Mute**', `False`)
+          .addField(':microphone2: **Server Mute**', `**False**`)
           .setTimestamp()
           .setFooter(userTag, userAvatar)
 
@@ -1048,9 +1048,9 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 // Server Deafen Voice
       if(voiceOld.serverDeaf === false && voiceNew.serverDeaf === true) {
           let serverDeafv = new Discord.RichEmbed()
-          .setAuthor(userID.tag, userID.avatarURL)
+          .setAuthor(voiceOld.user.tag, voiceOld.user.avatarURL)
           .setDescription(`**Voice state of** <@${voiceOld.user.id}> **has been updated. by:** <@${userID}> **Channel:** \`\`${voiceOld.voiceChannel.name}\`\``)
-          .addField(':mute: **Server Deafen**', `True`)
+          .addField(':mute: **Server Deafen**', `**True**`)
           .setTimestamp()
           .setFooter(userTag, userAvatar)
 
@@ -1059,9 +1059,9 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
 // Server UnDeafen Voice
       if(voiceOld.serverDeaf === true && voiceNew.serverDeaf === false) {
           let serverUndeafv = new Discord.RichEmbed()
-          .setAuthor(userID.tag, userID.avatarURL)
+          .setAuthor(voiceOld.user.tag, voiceOld.user.avatarURL)
           .setDescription(`**Voice state of** <@${voiceOld.user.id}> **has been updated. by:** <@${userID}> **Channel:** \`\`${voiceOld.voiceChannel.name}\`\``)
-          .addField(':loud_sound: **Server Deafen**', `False`)
+          .addField(':loud_sound: **Server Deafen**', `**False**`)
           .setTimestamp()
           .setFooter(userTag, userAvatar)
 
