@@ -426,9 +426,6 @@ bot.on(`guildMemberUpdate`, async (om, nm) => {
         .setAuthor(`${nm.user.tag}`, nm.user.displayAvatarURL)
         .setTimestamp()
         .setDescription(`:white_check_mark: ${nm} was given the \`${name}\` role by ${user}`)
-        if(reason) {
-          embed.addField("Reason", reason)
-          }
         channel.send("", { embed : embed } )
 
 }
@@ -441,9 +438,6 @@ bot.on(`guildMemberUpdate`, async (om, nm) => {
       .setAuthor(`${nm.user.tag}`, nm.user.displayAvatarURL)
       .setTimestamp()
       .setDescription(`:negative_squared_cross_mark: ${nm} was removed from the \`${name}\` role by ${user}`)
-      if(reason) {
-        embed.addField("Reason", reason)
-        }
       channel.send("", { embed : embed } )
     }
 
