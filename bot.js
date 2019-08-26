@@ -777,4 +777,56 @@ client.on('roleDelete', (role) => {
       })
 
 })
+client.on('guildMemberRemove', (member) => {
+
+  let guild;
+  while (!guild)
+    guild = member.guild
+
+  let channel = guild.channels.find(ch => ch.name == 'log-ban-kick');
+  if(!channel) return;
+
+  guild.fetchAuditLogs()
+  .then(logs => {
+    let user = logs.entries.first().executor;
+    let act = logs.entries.first().action;
+    let reason = logs.entries.first().reason;
+
+    let embed = new Discord.RichEmbed()
+    .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL)
+    .setTimestamp()
+
+
+    if(act === 'MEMBER_BAN') {
+
+      reason ? embed.addField('**Reason:**', `\`\`\`${reason}\`\`\``) : '';
+
+      embed.setDescription(`**${member} banned from the server!** by ${user}`)
+      embed.setFooter(`${guild.name}`, guild.iconURL);
+      embed.setThumbnail(user.displayAvatarURL)
+
+
+  } else
+
+  if(act === 'MEMBER_KICK') {
+
+    reason ? embed.addField('**Reason:**', reason) : '';
+
+    embed.setDescription(`${member} **kicked from the server by:** ${user}`)
+    embed.setFooter(`${user.tag}`, user.displayAvatarURL)
+    embed.setThumbnail(user.displayAvatarURL)
+
+  }
+
+  else {
+    embed.setDescription(`**${member} has left server.**`)
+    embed.setThumbnail(member.displayAvatarURL)
+
+  }
+
+  channel.send( { embed : embed } )
+
+  })
+
+})
             client.login(process.env.BOT_TOKEN);
