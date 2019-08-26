@@ -9,6 +9,9 @@ bot.on(`ready`, () => {
   console.log(`Log Bot | 0%`);
   console.log(bot.user.id);
 })
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
 const antic = JSON.parse(fs.readFileSync('./antic.json', 'utf8'));
 client.on("message", message =>{
 if(!antic[message.author.id]) {
