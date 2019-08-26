@@ -505,10 +505,7 @@ client.on('voiceStateUpdate', (old, now) => {
     .addField('**Name :**', `${name}`, true)
     .addField('**Type :**', `${type}`, true)
     .setThumbnail(user.displayAvatarURL)
-   if(typeNo == 0) {
-    embed.addField('**NSFW :**', `${nsfw}`, true)
-    .setFooter(`${guild.name}`, guild.avatarURL);
-   }/* else if(typeNo === 2) {
+/* else if(typeNo === 2) {
     embed.addField('BitRate :', `${bit}`, true)
   }*/
     channel.send("", { embed : embed } )
