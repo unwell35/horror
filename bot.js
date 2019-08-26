@@ -785,7 +785,7 @@ client.setTimeout(() => {
   })
   .then(audit => {
     let exec = audit.entries.map(a => a.executor.username);
-           let reason = logs.entries.first().reason;
+        let reason = audit.entries.map(a => a.reason);
     try {
          let log = guild.channels.find(`name`, "log-ban-kick");
         if(!channel) return;
