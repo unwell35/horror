@@ -474,7 +474,7 @@ client.on('voiceStateUpdate', (old, now) => {
 
   let guild = ch.guild
 
-  var channel = guild.channels.find(c => c.name === 'log-chats');
+       let channel = guild.channels.find(`name`, "log-chats");
   if(!channel) return;
 
   guild.fetchAuditLogs()
