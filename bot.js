@@ -805,7 +805,69 @@ client.on('guildBanAdd', (guild, user) => {
       logChannel.send(banInfo);
   })
 });
+client.on('messageDelete', (msg) => {
 
+  var guild;
+    while(!guild)
+      guild = msg.guild;
+
+
+    let channel = guild.channels.find(ch => ch.name == 'log-mute-chat-voice-move');
+    if(!channel) return;
+
+    guild.fetchAuditLogs()
+    .then(logs => {
+
+      let user = logs.entries.first().executor;
+
+
+      const embed = new Discord.RichEmbed()
+      .setAuthor(msg.author.tag, msg.author.displayAvatarURL)
+      .setTimestamp()
+      .setDescription(`**Message Deleted** ${user == msg.author ? '' : ` **by**: ${user}`}`)
+      .addField('**Message:**', `\`\`\`${msg.cleanContent}\`\`\``)
+
+      channel.send( { embed : embed } )
+
+
+    })
+
+})
+
+client.on('messageUpdate', (oldmsg, newmsg) => {
+
+  if(oldmsg.content == newmsg.content) return;
+
+  var guild;
+    while(!guild)
+      guild = newmsg.guild;
+
+
+    let channel = guild.channels.find(ch => ch.name == 'log-mute-chat-voice-move');
+    if(!channel) return;
+
+    guild.fetchAuditLogs()
+    .then(logs => {
+
+      let user = logs.entries.first().executor;
+
+
+      const embed = new Discord.RichEmbed()
+      .setAuthor(`${newmsg.author.tag}`, newmsg.author.displayAvatarURL)
+      .setTimestamp()
+      .setDescription(`**Message Updated**`)
+      .addField('**Old Message:**', `\`\`\`${oldmsg.cleanContent}\`\`\``)
+      .addField('**New Message:**', `\`\`\`${newmsg.cleanContent}\`\`\``)
+      .setThumbnail(userID.newmsg.author.displayAvatarURL)
+      .setFooter(`${guild.name}`, guild.iconURL);
+
+
+      channel.send( { embed : embed } )
+
+
+    })
+
+})
 
 
             client.login(process.env.BOT_TOKEN);
