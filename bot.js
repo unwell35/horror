@@ -826,6 +826,8 @@ client.on('messageDelete', (msg) => {
       .setTimestamp()
       .setDescription(`:wastebasket: **Message Deleted in ${msg.channel}** ${user == msg.author ? '' : ` **by**: ${user}`}`)
       .addField('**Message:**', `\`\`\`${msg.cleanContent}\`\`\``)
+      .setThumbnail(msg.author.displayAvatarURL)
+      .setFooter(`${guild.name}`, guild.iconURL);
 
       channel.send( { embed : embed } )
 
@@ -858,7 +860,7 @@ client.on('messageUpdate', (oldmsg, newmsg) => {
       .setDescription(`:pencil2:  **Message Updated in ${oldmsg.channel}**`)
       .addField('**Old Message:**', `\`\`\`${oldmsg.cleanContent}\`\`\``)
       .addField('**New Message:**', `\`\`\`${newmsg.cleanContent}\`\`\``)
-      .setThumbnail(userID.newmsg.author.displayAvatarURL)
+      .setThumbnail(newmsg.author.displayAvatarURL)
       .setFooter(`${guild.name}`, guild.iconURL);
 
 
