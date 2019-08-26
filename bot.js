@@ -556,6 +556,7 @@ client.on('channelDelete', ( ch ) => {
   })
 
 })
+/*
 client.on('channelUpdate', (oC, nC) => {
 
   //console.log(nC);
@@ -639,7 +640,7 @@ client.on('channelUpdate', (oC, nC) => {
   channel.send("", { embed : embed } )
   })
 
-})
+})*/
 client.on('roleUpdate', (oR, nR) => {
 
   let guild;
