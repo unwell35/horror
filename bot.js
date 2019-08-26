@@ -899,7 +899,7 @@ client.on('guildUpdate', (oldGuild, newGuild) => {
   if(!oldGuild.member(client.user).hasPermission('EMBED_LINKS')) return;
   if(!oldGuild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
 
-  var logChannel = guild.channels.find(c => c.name === 'log-change-server');
+  var logChannel = oldGuild.channels.find(c => c.name === 'log-change-server');
   if(!logChannel) return;
 
   oldGuild.fetchAuditLogs().then(logs => {
