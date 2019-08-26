@@ -427,7 +427,7 @@ client.on('voiceStateUpdate', (old, now) => {
          .setTimestamp()
          .setDescription(`:white_check_mark: ${nm} **was given the** \`${name}\` **role by:** ${user}`)
          .setThumbnail(nm.user.displayAvatarURL)
-         .setFooter(`${nm.guild.name}`, nm.guild.avatarURL);
+         .setFooter(`${nm.guild.name}`, nm.guild.iconURL);
 
                  if(reason) {
            embed.addField("Reason:", reason)
@@ -445,7 +445,7 @@ client.on('voiceStateUpdate', (old, now) => {
        .setTimestamp()
        .setDescription(`:no_entry: ${nm} **was removed from the** \`${name}\` **role by:** ${user}`)
        .setThumbnail(nm.user.displayAvatarURL)
-       .setFooter(`${nm.guild.name}`, nm.guild.avatarURL);
+       .setFooter(`${nm.guild.name}`, nm.guild.iconURL);
 
                if(reason) {
            embed.addField("Reason:", reason)
@@ -462,7 +462,7 @@ client.on('voiceStateUpdate', (old, now) => {
        .addField('**Old Nickname**', `\`\`${om.nickname}\`\``)
        .addField('**New Nickname**', `\`\`${nm.nickname}\`\``)
        .setThumbnail(nm.user.displayAvatarURL)
-       .setFooter(`${nm.guild.name}`, nm.guild.avatarURL);
+       .setFooter(`${nm.guild.name}`, nm.guild.iconURL);
 
        channell.send("", { embed : embed } )
      }
@@ -505,7 +505,7 @@ client.on('voiceStateUpdate', (old, now) => {
     .addField('**Name :**', `${name}`, true)
     .addField('**Type :**', `${type}`, true)
     .setThumbnail(user.displayAvatarURL)
-    .setFooter(`${guild.name}`, guild.avatarURL);
+    .setFooter(`${guild.name}`, guild.iconURL);
     if(reason) {
       embed.addField("Reason:", reason)
       }
@@ -514,5 +514,47 @@ client.on('voiceStateUpdate', (old, now) => {
   })
 })
 
+client.on('channelDelete', ( ch ) => {
+
+  let guild;
+  while (!guild)
+      guild = ch.guild
+
+
+  const channel = guild.channels.find(ch => ch.name == 'log-chats')
+  if(!channel) return;
+
+  guild.fetchAuditLogs()
+  .then(logs => {
+
+    const user = logs.entries.first().executor
+    const changes = logs.entries.first().changes
+    let reason = logs.entries.first().reason;
+
+
+    var type = '';
+
+    if(ch.type === 'text') type = 'Text Channel'
+    if(ch.type === 'voice') type = 'Voice Channel'
+    if(ch.type === 'category') type = 'Category Channel'
+
+    const embed = new Discord.RichEmbed()
+    .setAuthor(`${user.tag}`, user.displayAvatarURL)
+    .setDescription(`**Channel** ${ch.name} **has been deleted by:** ${user}`)
+    .addField('**Channel Name:**', `${ch.name}`)
+    .addField('**Channel Type:**', `${type}`)
+    .setTimestamp()
+    .setThumbnail(user.displayAvatarURL)
+    .setFooter(`${guild.name}`, guild.iconURL);
+    if(reason) {
+      embed.addField("Reason:", reason)
+      }
+
+
+    channel.send("", { embed : embed } )
+
+  })
+
+})
 
             client.login(process.env.BOT_TOKEN);
