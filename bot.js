@@ -712,6 +712,7 @@ client.on('roleUpdate', (oR, nR) => {
 
             embed.setColor(nR.hexColor)
             embed.setFooter(`${guild.name}`, guild.iconURL);
+            embed.setThumbnail(user.displayAvatarURL)
             embed.setTimestamp()
 
             channel.send("", { embed: embed } )
@@ -722,7 +723,7 @@ client.on('roleUpdate', (oR, nR) => {
 
           const embed = new Discord.RichEmbed()
           .setAuthor(`${user.tag}`, user.displayAvatarURL)
-          .setDescription(`**${nR} role has been updated** by: ${user}`)
+          .setDescription(`*${nR} **role has been updated by:** ${user}`)
           if(oR.name !== nR.name) {
             embed.addField('**Old Name:**', `${oR.name}`)
             embed.addField('**New Name:**', `${nR.name}`)
