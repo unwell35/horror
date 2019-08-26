@@ -640,5 +640,108 @@ client.on('channelUpdate', (oC, nC) => {
   })
 
 })
+client.on('roleUpdate', (oR, nR) => {
 
+  let guild;
+    while (!guild)
+      guild = oR.guild
+
+      const channel = guild.channels.find(ch => ch.name == 'log-roles')
+      if(!channel) return;
+
+      guild.fetchAuditLogs()
+      .then(logs => {
+
+        const user = logs.entries.first().executor
+        const changes = logs.entries.first().changes
+
+
+        function colorToHexString(dColor) {
+    return '#' + ("000000" + (((dColor & 0xFF) << 16) + (dColor & 0xFF00) + ((dColor >> 16) & 0xFF)).toString(16)).slice(-6);
+          }
+
+          if (oR.permissions != nR.permissions) {
+
+            let perms = {
+              added: [],
+              removed: []
+            }
+
+            let newPerms = new Discord.Permissions(nR.permissions);
+            let nArr = newPerms.toArray();
+
+            let oldPerms = new Discord.Permissions(oR.permissions);
+            let oArr = oldPerms.toArray();
+
+            nArr.forEach(perm => {
+              
+              if(oArr.includes(perm)) return;
+
+              else if(!oArr.includes(perm)) {
+                perms.added.push(perm);
+              } 
+
+            })
+
+            oArr.forEach(perm => {
+
+              if(nArr.includes(perm)) return;
+
+              else if(!nArr.includes(perm)) {
+                perms.removed.push(perm);
+              } 
+
+            })
+
+            const embed = new Discord.RichEmbed()
+            .setAuthor(`${user.tag}`, user.displayAvatarURL)
+            .setDescription(`${nR} **role permissions has been updated by:** ${user}`);
+            if(perms.added[0]) {
+              let text = '';
+              perms.added.map(p => text += `${p}\n`)
+              embed.setAuthor(`${user.tag}`, user.displayAvatarURL)
+              embed.addField('Permissions Added:', `\`\`\`${text}\`\`\``);
+            }
+
+            if(perms.removed[0]) {
+              let text = '';
+              perms.removed.map(p => text += `${p}\n`)
+              embed.setAuthor(`${user.tag}`, user.displayAvatarURL)
+              embed.addField('Permissions Removed:', `\`\`\`${text}\`\`\``);
+            }
+
+            embed.setColor(nR.hexColor)
+            embed.setFooter(`${guild.name}`, guild.iconURL);
+            embed.setTimestamp()
+
+            channel.send("", { embed: embed } )
+
+          }
+
+          if((oR.name !== nR.name) || (oR.hexColor !== nR.hexColor)) {
+
+          const embed = new Discord.RichEmbed()
+          .setAuthor(`${user.tag}`, user.displayAvatarURL)
+          .setDescription(`**${nR} role has been updated** by: ${user}`)
+          if(oR.name !== nR.name) {
+            embed.addField('**Old Name:**', `${oR.name}`)
+            embed.addField('**New Name:**', `${nR.name}`)
+          }
+          if(oR.hexColor !== nR.hexColor) {
+            embed.addField('**Old Color:**', `${oR.hexColor}`)
+            embed.addField('**New Color:**', `${nR.hexColor}`)
+          }
+
+
+
+          embed.setColor(nR.hexColor)
+          embed.setThumbnail(user.displayAvatarURL)
+          embed.setFooter(`${guild.name}`, guild.iconURL);
+          embed.setTimestamp()
+
+
+          channel.send("", { embed : embed } )
+}
+      })
+})
             client.login(process.env.BOT_TOKEN);
