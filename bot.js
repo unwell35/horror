@@ -976,6 +976,19 @@ client.on('guildUpdate', (oldGuild, newGuild) => {
       }
   })
 });
-
+client.on('guildMemberAdd', member => {
+  var logChannel = member.guild.channels.find(c => c.name === 'log-join-leave');
+  if(!logChannel) return;
+ 
+  let newMember = new Discord.RichEmbed()
+  .setAuthor(member.user.tag, member.user.avatarURL)
+  .setThumbnail(member.user.avatarURL)
+  .setDescription(`<@${member.user.id}> **joined the server.`)
+  .addField('**Days In Discord:**', `${Days(member.user.createdAt)}`)
+  .setTimestamp()
+  .setFooter(`${guild.name}`, guild.iconURL);
+ 
+  logChannel.send(newMember);
+});
 
             client.login(process.env.BOT_TOKEN);
