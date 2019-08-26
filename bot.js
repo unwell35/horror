@@ -542,7 +542,9 @@ client.on('channelUpdate', (oC, nC) => {
           else if(changes[1].new == 'member') roleOrUser = `<@${change.new}>`
         } 
       })
-      embed.setDescription(`${roleOrUser} Permissions has been added to ${nC} By ${user}`)
+      embed.setDescription(`${roleOrUser} **Permissions has been added to** ${nC} **By:** ${user}`)
+      embed.setThumbnail(user.displayAvatarURL)
+      embed.setFooter(`${guild.name}`, guild.avatarURL);
     }
 
     if(logs.entries.first().action == 'CHANNEL_OVERWRITE_DELETE') {
@@ -553,36 +555,44 @@ client.on('channelUpdate', (oC, nC) => {
           else if(changes[1].old == 'member') roleOrUser = `<@${change.old}>`
         } 
       })
-      embed.setDescription(`${roleOrUser} Permissions has been deleted from ${nC} By ${user}`)
+      embed.setDescription(`${roleOrUser} **Permissions has been deleted from** ${nC} **By:** ${user}`)
+      embed.setThumbnail(user.displayAvatarURL)
+      embed.setFooter(`${guild.name}`, guild.avatarURL);
     }
 
     if(logs.entries.first().action == 'CHANNEL_UPDATE') {
 
-    embed
-    .setDescription(`**Channel <#${oC.id}> has been updated** by ${user}`)
+    embed.setDescription(`**Channel** <#${oC.id}> **has been updated by:** ${user}`)
+    embed.setThumbnail(user.displayAvatarURL)
+    embed.setFooter(`${guild.name}`, guild.avatarURL);
     if(oC.name != nC.name) {
       embed.addField('**Old Name**',`${oC.name}`, true)
       embed.addField('**New Name**', `${nC.name}`, true)
+      embed.setThumbnail(user.displayAvatarURL)
+      embed.setFooter(`${guild.name}`, guild.avatarURL);
     }
     if(oC.topic != nC.topic) {
       embed.addField('**Old Topic**', `${oC.topic ? oC.topic : 'Null'}`, true)
       embed.addField('**New Topic**', `${nC.topic ? nC.topic : 'Null'}`, true)
+      embed.setThumbnail(user.displayAvatarURL)
+      embed.setFooter(`${guild.name}`, guild.avatarURL);
     }
     if(oC.nsfw != nC.nsfw) {
       embed.addField('**NSFW:**', nC.nsfw ? 'ON' : 'OFF');
+      embed.setThumbnail(user.displayAvatarURL)
+      embed.setFooter(`${guild.name}`, guild.avatarURL);
     }
     changes.forEach(change => {
       if(change.key == 'rate_limit_per_user') {
         embed.addField('**Old Slowmode Time:**', `${change.old}`, true)
         embed.addField('**New Slowmode Time:**', `${change.new}`, true);
+        embed.setThumbnail(user.displayAvatarURL)
+        embed.setFooter(`${guild.name}`, guild.avatarURL);
       }
     })
   }
-  embed.setThumbnail(user.displayAvatarURL)
-  embed.setFooter(`${guild.name}`, guild.avatarURL);
   channel.send("", { embed : embed } )
   })
 
 })
-
             client.login(process.env.BOT_TOKEN);
