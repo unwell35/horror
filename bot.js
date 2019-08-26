@@ -425,7 +425,7 @@ client.on('voiceStateUpdate', (old, now) => {
  
          .setAuthor(`${nm.user.tag}`, nm.user.displayAvatarURL)
          .setTimestamp()
-         .setDescription(`:white_check_mark: ${nm} was given the \`${name}\` role by ${user}`)
+         .setDescription(`:white_check_mark: ${nm} **was given the** \`${name}\` **role by:** ${user}`)
          .setThumbnail(nm.user.displayAvatarURL)
          .setFooter(`${nm.guild.name}`, nm.guild.avatarURL);
 
@@ -443,7 +443,7 @@ client.on('voiceStateUpdate', (old, now) => {
        let embed = new Discord.RichEmbed()
        .setAuthor(`${nm.user.tag}`, nm.user.displayAvatarURL)
        .setTimestamp()
-       .setDescription(`:no_entry: ${nm} was removed from the \`${name}\` role by ${user}`)
+       .setDescription(`:no_entry: ${nm} **was removed from the** \`${name}\` **role by:** ${user}`)
        .setThumbnail(nm.user.displayAvatarURL)
        .setFooter(`${nm.guild.name}`, nm.guild.avatarURL);
 
@@ -458,7 +458,7 @@ client.on('voiceStateUpdate', (old, now) => {
        let embed = new Discord.RichEmbed()
        .setAuthor(`${nm.user.tag}`, nm.user.displayAvatarURL)
        .setTimestamp()
-       .setDescription(`:white_check_mark: ${nm} nickname was changed by ${user}`)
+       .setDescription(`:white_check_mark: ${nm} **Nickname was changed by:** ${user}`)
        .addField('Old Nickname', `\`\`\`${om.nickname}\`\`\``)
        .addField('New Nickname', `\`\`\`${nm.nickname}\`\`\``)
        .setThumbnail(nm.user.displayAvatarURL)
@@ -470,5 +470,4 @@ client.on('voiceStateUpdate', (old, now) => {
    })
  
  })
-
             client.login(process.env.BOT_TOKEN);
