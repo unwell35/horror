@@ -1008,6 +1008,7 @@ client.on('guildMemberRemove', member => {
  
   logChannel.send(leaveMember);
 });
+// Voice Logs
 client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
  
   if(!voiceOld.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
@@ -1029,7 +1030,6 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
           .addField(':microphone2: **Server Mute**', `True`)
           .setTimestamp()
           .setFooter(userTag, userAvatar)
-          .setFooter(`${guild.name}`, guild.iconURL);
 
 
           logChannel.send(serverMutev);
@@ -1042,7 +1042,6 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
           .addField(':microphone2: **Server Mute**', `False`)
           .setTimestamp()
           .setFooter(userTag, userAvatar)
-          .setFooter(`${guild.name}`, guild.iconURL);
 
           logChannel.send(serverUnmutev);
       }
@@ -1054,7 +1053,6 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
           .addField(':mute: **Server Deafen**', `True`)
           .setTimestamp()
           .setFooter(userTag, userAvatar)
-          .setFooter(`${guild.name}`, guild.iconURL);
 
           logChannel.send(serverDeafv);
       }
@@ -1066,7 +1064,6 @@ client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
           .addField(':loud_sound: **Server Deafen**', `False`)
           .setTimestamp()
           .setFooter(userTag, userAvatar)
-          .setFooter(`${guild.name}`, guild.iconURL);
 
           logChannel.send(serverUndeafv);
       }
