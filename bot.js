@@ -401,14 +401,6 @@ client.on('voiceStateUpdate', (old, now) => {
   if (currentSize !== size) channel.setName(`Horror : ${currentSize}`);
 });
 
-client.on('voiceStateUpdate', (old, now) => {
-  const channel = client.channels.get('570303330920824832');
-  const currentSize = channel.guild.members.filter(m => m.voiceChannel).size;
-   const size = channel.name.match(/\[\s(\d+)\s\]/);
-   if (!size) return channel.setName(`Horror : ${currentSize}`);
-   if (currentSize !== size) channel.setName(`Horror : ${currentSize}`);
- });
- 
  client.on(`guildMemberUpdate`, async (om, nm) => {
    if(!om || !om.id) return;
  
@@ -435,7 +427,7 @@ client.on('voiceStateUpdate', (old, now) => {
          .setTimestamp()
          .setDescription(`:white_check_mark: ${nm} was given the \`${name}\` role by ${user}`)
          .setThumbnail(nm.user.displayAvatarURL)
-         .setFooter(`${nm.guild.name}`, nm.guild.displayAvatarURL);
+         .setFooter(`${nm.guild.name}`, nm.guild.avatarURL);
 
                  if(reason) {
            embed.addField("Reason:", reason)
@@ -453,7 +445,7 @@ client.on('voiceStateUpdate', (old, now) => {
        .setTimestamp()
        .setDescription(`:no_entry: ${nm} was removed from the \`${name}\` role by ${user}`)
        .setThumbnail(nm.user.displayAvatarURL)
-       .setFooter(`${nm.guild.name}`, nm.guild.displayAvatarURL);
+       .setFooter(`${nm.guild.name}`, nm.guild.avatarURL);
 
                if(reason) {
            embed.addField("Reason:", reason)
@@ -477,5 +469,4 @@ client.on('voiceStateUpdate', (old, now) => {
    })
  
  })
-
             client.login(process.env.BOT_TOKEN);
