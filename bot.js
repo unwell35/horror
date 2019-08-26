@@ -777,37 +777,32 @@ client.on('roleDelete', (role) => {
       })
 
 })
-client.on("guildBanAdd", (guild, member) => {
-client.setTimeout(() => {
-  guild.fetchAuditLogs({
-    limit: 1,
-    type: 22
+client.on('guildBanAdd', (guild, user) => {
+ 
+  if(!guild.member(client.user).hasPermission('EMBED_LINKS')) return;
+  if(!guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
+
+  var logChannel = guild.channels.find(c => c.name === 'log-ban-kick');
+  if(!logChannel) return;
+
+  guild.fetchAuditLogs().then(logs => {
+      var userID = logs.entries.first().executor.id;
+      var userAvatar = logs.entries.first().executor.avatarURL;
+      var reason = logs.entries.first().reason;
+
+
+      if(userID === client.user.id) return;
+
+      let banInfo = new Discord.RichEmbed()
+      .setAuthor(`${user.tag}`, user.displayAvatarURL)
+      .setDescription(`<@${user.id}> **banned from the server By:** <@${userID}>`)
+      .setTimestamp()
+      .setFooter(`${guild.name}`, guild.iconURL);
+      if(reason) {
+        embed.addField("Reason:", reason)
+        }
+      logChannel.send(banInfo);
   })
-  .then(audit => {
-    let exec = audit.entries.map(a => a.executor.username);
-        let reason = audit.entries.map(a => a.reason);
-    try {
-         let log = guild.channels.find(`name`, "log-ban-kick");
-        if(!channel) return;
-      client.fetchUser(member.id).then(myUser => {
-        let Banninglolembed = new Discord.RichEmbed()
-        .setAuthor(`${member.exec.tag}`, member.exec.displayAvatarURL)
-        .setThumbnail(exec.avatarURL)
-        .setDescription(`${myUser.tag} **banned from the server by:** ${exec}`)
-        .setTimestamp()
-        .setFooter(`${guild.name}`, guild.iconURL);
-                         if(reason) {
-           embed.addField("Reason:", reason)
-           }
-        log.send(Banninglolembed).catch(e => {
-          console.log(e);
-        });
-      });
-    }catch (e) {
-      console.log(e);
-    }
-  });
-}, 1000);
 });
 
             client.login(process.env.BOT_TOKEN);
