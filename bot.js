@@ -777,56 +777,32 @@ client.on('roleDelete', (role) => {
       })
 
 })
-client.on('guildMemberRemove', (member) => {
-
-  let guild;
-  while (!guild)
-    guild = member.guild
-
-  let channel = guild.channels.find(ch => ch.name == 'log-ban-kick');
-  if(!channel) return;
-
-  guild.fetchAuditLogs()
-  .then(logs => {
-    let user = logs.entries.first().executor;
-    let act = logs.entries.first().action;
-    let reason = logs.entries.first().reason;
-
-    let embed = new Discord.RichEmbed()
-    .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL)
-    .setTimestamp()
-
-
-    if(act === 'MEMBER_BAN') {
-
-      reason ? embed.addField('**Reason:**', `\`\`\`${reason}\`\`\``) : '';
-
-      embed.setDescription(`**${member} banned from the server!** by ${user}`)
-      embed.setFooter(`${guild.name}`, guild.iconURL);
-      embed.setThumbnail(user.displayAvatarURL)
-
-
-  } else
-
-  if(act === 'MEMBER_KICK') {
-
-    reason ? embed.addField('**Reason:**', reason) : '';
-
-    embed.setDescription(`${member} **kicked from the server by:** ${user}`)
-    embed.setFooter(`${user.tag}`, user.displayAvatarURL)
-    embed.setThumbnail(user.displayAvatarURL)
-
-  }
-
-  else {
-    embed.setDescription(`**${member} has left server.**`)
-    embed.setThumbnail(member.displayAvatarURL)
-
-  }
-
-  channel.send( { embed : embed } )
-
+client.on("guildBanAdd", (guild, member) => {
+client.setTimeout(() => {
+  guild.fetchAuditLogs({
+    limit: 1,
+    type: 22
   })
-
-})
+  .then(audit => {
+    let exec = audit.entries.map(a => a.executor.username);
+    try {
+      const channel = guild.channels.find(ch => ch.name == 'log-ban-kick')
+      if(!channel) return;
+      client.fetchUser(member.id).then(myUser => {
+        let Banninglolembed = new Discord.RichEmbed()
+        .setAuthor(`${member.exec.tag}`, member.exec.displayAvatarURL)
+        .setThumbnail(exec.avatarURL)
+        .setDescription(`${myUser.tag} **banned from the server by:** ${exec}`)
+        .setTimestamp()
+        .setFooter(`${guild.name}`, guild.iconURL);
+        log.send(Banninglolembed).catch(e => {
+          console.log(e);
+        });
+      });
+    }catch (e) {
+      console.log(e);
+    }
+  });
+}, 1000);
+});
             client.login(process.env.BOT_TOKEN);
