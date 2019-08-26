@@ -793,15 +793,19 @@ client.on('guildBanAdd', (guild, user) => {
       if(userID === client.user.id) return;
 
       let banInfo = new Discord.RichEmbed()
+
       .setAuthor(`${user.tag}`, user.displayAvatarURL)
       .setDescription(`<@${user.id}> **banned from the server by:** ${userID}`)
       .setThumbnail(userID.displayAvatarURL)
-      .addField("Reason:", reason)
-      .setTimestamp()
+     .setTimestamp()
       .setFooter(`${guild.name}`, guild.iconURL);
+      if(reason) {
+        banInfo.addField("Reason:", reason)
+        }
       logChannel.send(banInfo);
   })
 });
+
 
 
             client.login(process.env.BOT_TOKEN);
