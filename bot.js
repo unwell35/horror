@@ -505,7 +505,7 @@ client.on('voiceStateUpdate', (old, now) => {
 
       let channelCreate = new Discord.RichEmbed()
       .setAuthor(`${userID.tag}`, userID.displayAvatarURL)
-      .setThumbnail(user.displayAvatarURL)
+      .setThumbnail(userID.displayAvatarURL)
       .setDescription(`**Channel Created By:** ${userID}`)
       .addField('**Name :**', `${channel.name}`, true)
       .addField('**Type :**', `${roomType}`, true)
