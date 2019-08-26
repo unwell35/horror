@@ -814,7 +814,8 @@ client.on('guildBanRemove', (guild, user) => {
 
   guild.fetchAuditLogs().then(logs => {
       var userID = logs.entries.first().executor;
-      var userAvatar = logs.entries.first().executor.avatarURL;
+      var userAvatar = logs.entries.first().executor.avatarURL;  
+      var reason = logs.entries.first().reason;      
 
       let unBanInfo = new Discord.RichEmbed()
       .setAuthor(`${userID.tag}`, userID.displayAvatarURL)
@@ -822,7 +823,9 @@ client.on('guildBanRemove', (guild, user) => {
       .setDescription(` <@${user.id}>**Unbanned by:** ${userID}`)
       .setTimestamp()
       .setFooter(guild.name, guild.iconURL)
-
+      if(reason) {
+        unBanInfo.addField("Reason:", reason)
+        }
       logChannel.send(unBanInfo);
   })
 });
