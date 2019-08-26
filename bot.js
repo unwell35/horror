@@ -1072,4 +1072,36 @@ client.on('guildMemberRemove', (member) => {
   })
 
 })
+client.on('channelDelete', channel => {
+  if(!channel.guild) return;
+  if(!channel.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
+  if(!channel.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
+
+  var logChannel = channel.guild.channels.find(c => c.name === 'log-chats');
+  if(!logChannel) return;
+
+  if(channel.type === 'text') {
+      var roomType = 'Text';
+  }else
+  if(channel.type === 'voice') {
+      var roomType = 'Voice';
+  }else
+  if(channel.type === 'category') {
+      var roomType = 'Category';
+  }
+
+  channel.guild.fetchAuditLogs().then(logs => {
+      var userID = logs.entries.first().executor;
+      var userAvatar = logs.entries.first().executor.avatarURL;
+
+      let channelDelete = new Discord.RichEmbed()
+      .setAuthor(`${userID.tag}`, userID.displayAvatarURL)
+      .setThumbnail(userID.displayAvatarURL)
+      .setDescription(`${roomType} **Channel** ${channel.name} **has been deleted by:** ${userID}`)
+      .setTimestamp()
+      .setFooter(channel.guild.name, channel.guild.iconURL)
+
+      logChannel.send(channelDelete);
+  })
+});
             client.login(process.env.BOT_TOKEN);
