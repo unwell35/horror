@@ -745,4 +745,36 @@ client.on('roleUpdate', (oR, nR) => {
 }
       })
 })
+client.on('roleDelete', (role) => {
+
+  let guild;
+    while (!guild)
+      guild = role.guild
+
+      var time = new Date()
+      var mask = 'yyyy-mm-dd h:MM'
+
+      var timestamp = dateformat(time, mask)
+
+      const channel = guild.channels.find(ch => ch.name == 'log-roles')
+      if(!channel) return;
+
+      guild.fetchAuditLogs()
+      .then(logs => {
+
+        const user = logs.entries.first().executor
+
+        const embed = new Discord.RichEmbed()
+        .setAuthor(`${user.tag}`, user.displayAvatarURL)
+        .setDescription(`\`${role.name}\` **has been deleted by:** ${user}`)
+        .setThumbnail(user.displayAvatarURL)
+        .setTimestamp()
+        .setFooter(`${guild.name}`, guild.iconURL);
+
+
+        channel.send( { embed : embed } )
+
+      })
+
+})
             client.login(process.env.BOT_TOKEN);
