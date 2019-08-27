@@ -429,7 +429,7 @@ client.on('guildMemberAdd', (member) => {
 client.on('guildMemberAdd', (member) => {
   var reasonn = "AutoRole"
   let autorole = member.guild.roles.find(r => r.name === "Horror");
-  member.guild.member.addRole(autorole, reasonn)
+  guild.member.addRole(autorole, reasonn)
   });
 
 client.on('message', async message => {
