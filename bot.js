@@ -426,11 +426,11 @@ client.on('guildMemberAdd', (member) => {
   member.addRole(member.guild.roles.find('name', 'Horror', { reason: 'AutoRole' }));
   });
 */
-client.on('guildMemberAdd', (member) => {
-  var reasonn = "AutoRole"
-  let autorole = member.guild.roles.find(r => r.name === "Horror");
-  guild.member.addRole(autorole, reasonn)
-  });
+    client.on('guildMemberAdd', (member) => {
+      var reasonn = "AutoRole"
+      let autorole = member.guild.roles.find(r => r.name === "Horror");
+      member.addRole(autorole, reasonn)
+      });
 
 client.on('message', async message => {
             if(message.content.includes('discord.gg')){ 
