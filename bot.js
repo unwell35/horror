@@ -4,6 +4,9 @@ const RichEmbed = require("discord.js");
 const { Client, Util } = require('discord.js');
 const dateformat = require('dateformat');
 const fs = require('fs');
+const ms = require("ms")
+const bot = client
+bot.mutes = require("./mutes.json")
 bot.on(`ready`, () => {
   console.log(`Log Bot | 0%`);
   console.log(bot.user.id);
@@ -207,9 +210,6 @@ msg.delete();
             });
 
 
-const ms = require("ms")
-const bot = client
-bot.mutes = require("./mutes.json")
 client.on('ready', () => {
     console.log(`Logged in as ${bot.user.tag}`)
     bot.setInterval(() => {
