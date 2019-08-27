@@ -299,8 +299,8 @@ client.on('message', message => {
   });
 
 client.on('guildMemberAdd', (member) => {
-member.addRole(member.guild.roles.find('name', 'Horror'));
-});
+  member.addRole(member.guild.roles.find('name', 'Horror', { reason: 'AutoRole' }));
+  });
 
 client.on('message', async message => {
             if(message.content.includes('discord.gg')){ 
