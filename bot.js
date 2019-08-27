@@ -3,7 +3,6 @@ const client = new Discord.Client();
 const RichEmbed = require("discord.js");
 const { Client, Util } = require('discord.js');
 const dateformat = require('dateformat');
-const bot = new Discord.Client();
 const fs = require('fs');
 bot.on(`ready`, () => {
   console.log(`Log Bot | 0%`);
@@ -206,6 +205,131 @@ msg.delete();
              message.delete(); 
             };     
             });
+
+
+const ms = require("ms")
+const bot = client
+const fs = require("fs")
+bot.mutes = require("./mutes.json")
+client.on('ready', () => {
+    console.log(`Logged in as ${bot.user.tag}`)
+    bot.setInterval(() => {
+        for (let i in bot.mutes) {
+            let time = bot.mutes[i].time;
+            let member = bot.mutes[i].muted
+            let mutereason = "Mute time is over"
+            if (Date.now() > time) {
+                bot.guilds.get(bot.mutes[i].guildid).members.get(`${member}`).removeRole(bot.mutes[i].roleid, mutereason)
+                delete bot.mutes[i];
+                fs.writeFile("./mutes.json", JSON.stringify(bot.mutes, null, 4), (err) => {
+                    if (err) throw err;
+                    console.log(`${bot.users.get(member).username} has been unmuted`)
+                })
+            }
+        }
+    }, 5000)
+})
+bot.on("guildMemberAdd", async (member) => {
+    for (let i in bot.mutes) {
+        let data = bot.mutes[i];
+        if (data === undefined) return;
+        if (data.guildid !== member.guild.id) return;
+        let mutereason = "طلع ودخل"
+        let guildID = bot.mutes[i].guildid;
+        if (member.id === bot.mutes[i].muted) {
+            bot.guilds.get(`${guildID}`).members.get(`${member.id}`).addRole(`${bot.mutes[i].roleid}`, mutereason)
+        } else {
+            return;
+        }
+    }
+})
+client.on('message', async message => {
+    let prefix = "#"
+    let messageArray = message.content.split(' ')
+    let args = messageArray.slice(1)
+    let cmd = messageArray[0]
+    if (cmd === `${prefix}سجن`) {
+        message.delete();
+        // هنا يمديك تحط الرولات الي يمديها تستعمل الكوماند
+if(!message.member.hasPermission('ADMINISTRATOR')) return;
+        let themuteguy = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+        if (!themuteguy) return message.channel.send("**الرجاء وضع المنشن**").then(msg => msg.delete(8000))
+        if (themuteguy.id == message.author.id) return message.reply('You cannot mute yourself can you 🌚? ')
+        let roleid = message.guild.roles.find(c => c.name === "سجن")
+        if (!roleid) return message.reply(`Please use \`${prefix}setup\` first`)
+        let mutereason = args.join(" ").slice(25)
+        if (!mutereason) return message.reply(`\`Usage: ${prefix}mute mention time reason\``)
+        let time = args[1]
+        if (ms(time) > 2.592e+9) return message.reply('Must be lower or equal to 30 days') // هنا لو الوقت اكثر من 30 يوم بيقلك م يمديك تسويله ميوت وهذي الجزئية مالها داعي لكن بتساعدك لو تبي تخلي ماكس للوقت
+        if (themuteguy.roles.has(roleid.id)) return message.channel.send("هذا الشخص بالفعل موجود في السجن")
+        bot.mutes.count++ + 1
+        if (isNaN(bot.mutes.count)) bot.mutes.count = 0 + 1;
+        bot.mutes[bot.mutes.count] = {
+            time: Date.now() + ms(time),
+            muted: themuteguy.id,
+            roleid: roleid.id,
+            guildid: message.guild.id
+        }
+        await message.guild.member(themuteguy.id).addRole(roleid.id, mutereason)
+        fs.writeFile("./mutes.json", JSON.stringify(bot.mutes, null, 4), err => {
+            if (err) throw err;
+            message.reply(`تم سجن المُتهم  <@!${themuteguy.id}>`).then(msg => msg.delete(20000))
+            let muteembed = new Discord.RichEmbed()//اللوق
+                .setAuthor("Prison")
+                .setColor("#FFFFFF")
+                .setTimestamp()
+                .addField("For:", `${themuteguy} \`(${themuteguy.id})\``)
+                .addField("By:", `${message.author} \`(${message.author.id})\``)
+                .addField("Reason:", mutereason)
+                .addField("Time", `${ms(ms(time), { long: true })}`)
+            let mutechannel = bot.channels.find(c => c.name === "log-mute-chat-voice-move")
+            if (!mutechannel) return;
+            mutechannel.send(muteembed)
+        })
+    }
+    if (cmd == `${prefix}فك`) {
+if(!message.member.hasPermission('ADMINISTRATOR')) return;
+        let tounmute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+        if (!tounmute) return message.reply('**Mention someone to un!**')
+        let muterole = message.guild.roles.find(c => c.name == 'سجن')
+        if (!muterole) {
+            aaa = await message.guild.createRole({
+                name: "سجن",
+                permissions: []
+            });
+        }
+        if(!tounmute.roles.has(muterole.id)) return message.reply('Uhhh he\'s not muted!')
+        for(var i in bot.mutes) {
+            let data = bot.mutes[i];
+            if(data.muted == tounmute.id && data.guild == message.guild.id){
+            message.guild.members.get(`${tounmute.id}`).removeRole(message.guild.roles.find(c => c.name == 'سجن'), "Unmute command")
+            delete bot.mutes[i];
+            }
+        }
+        fs.writeFile("./mutes.json", JSON.stringify(bot.mutes, null, 4), err => {
+            message.channel.send('Done')
+            if (err) throw err;
+        })
+    }
+    if (cmd == `${prefix}setup`) { // الكوماند هذا لو انت سويت كاتقوري جديد وسويت فيه شانلات جديدة مو موجود فيها منع للميوت اكتب الكوماند ذا
+if(!message.member.hasPermission('ADMINISTRATOR')) return;
+        let role = message.guild.roles.find(c => c.name === "سجن")
+        if (!role) {
+            muterole = await message.guild.createRole({
+                name: "سجن",
+                permissions: []
+            });
+        }
+        message.guild.channels.forEach(async (channel) => {
+            await channel.overwritePermissions(role.id, {
+                CONNECT: false,
+                SPEAK: false
+            });
+        });
+        message.channel.send('Done')
+    }
+})
+
 client.on("message", message => {
  var prefix = "-";
 let num = message.content.split(" ").slice(1).join(" ");
