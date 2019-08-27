@@ -209,7 +209,6 @@ msg.delete();
 
 const ms = require("ms")
 const bot = client
-const fs = require("fs")
 bot.mutes = require("./mutes.json")
 client.on('ready', () => {
     console.log(`Logged in as ${bot.user.tag}`)
