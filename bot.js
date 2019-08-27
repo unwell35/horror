@@ -274,7 +274,7 @@ if(!message.member.hasPermission('ADMINISTRATOR')) return;
             if (err) throw err;
             message.reply(`تم سجن المُتهم  <@!${themuteguy.id}>`)
             let muteembed = new Discord.RichEmbed()//اللوق
-            .setAuthor(`${message.themuteguy.tag}`, message.themuteguy.displayAvatarURL)
+            .setAuthor(`${themuteguy}`, themuteguy.displayAvatarURL)
                 .setTimestamp()
                 .addField("For:", `${themuteguy} \`(${themuteguy.id})\``)
                 .addField("By:", `${message.author} \`(${message.author.id})\``)
