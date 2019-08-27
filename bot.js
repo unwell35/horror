@@ -274,10 +274,10 @@ if(!message.member.hasPermission('ADMINISTRATOR')) return;
             if (err) throw err;
             message.reply(`تم سجن المُتهم  <@!${themuteguy.id}>`)
             let muteembed = new Discord.RichEmbed()//اللوق
-            .setAuthor(`${themuteguy}`, themuteguy.displayAvatarURL)
+            .setAuthor(`${themuteguy.tag}`, themuteguy.displayAvatarURL)
                 .setTimestamp()
-                .addField("For:", `${themuteguy} \`(${themuteguy.id})\``)
-                .addField("By:", `${message.author} \`(${message.author.id})\``)
+                .addField("For:", `${themuteguy}`)
+                .addField("By:", `${message.author}`)
                 .addField("Reason:", mutereason)
                 .addField("Time", `${ms(ms(time), { long: true })}`)
                 .setThumbnail(message.author.avatarURL)
@@ -421,9 +421,15 @@ client.on('message', message => {
     }
   
   });
-
+/*
 client.on('guildMemberAdd', (member) => {
   member.addRole(member.guild.roles.find('name', 'Horror', { reason: 'AutoRole' }));
+  });
+*/
+client.on('guildMemberAdd', (member) => {
+  var reasonn = "AutoRole"
+  let autorole = message.guild.roles.find(r => r.name === "Horror");
+  message.guild.member.addRole(autorole, reasonn)
   });
 
 client.on('message', async message => {
