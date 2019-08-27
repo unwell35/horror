@@ -272,15 +272,16 @@ if(!message.member.hasPermission('ADMINISTRATOR')) return;
         await message.guild.member(themuteguy.id).addRole(roleid.id, mutereason)
         fs.writeFile("./mutes.json", JSON.stringify(bot.mutes, null, 4), err => {
             if (err) throw err;
-            message.reply(`تم سجن المُتهم  <@!${themuteguy.id}>`).then(msg => msg.delete(20000))
+            message.reply(`تم سجن المُتهم  <@!${themuteguy.id}>`)
             let muteembed = new Discord.RichEmbed()//اللوق
-                .setAuthor("Prison")
-                .setColor("#FFFFFF")
+            .setAuthor(`${message.themuteguy.tag}`, message.themuteguy.displayAvatarURL)
                 .setTimestamp()
                 .addField("For:", `${themuteguy} \`(${themuteguy.id})\``)
                 .addField("By:", `${message.author} \`(${message.author.id})\``)
                 .addField("Reason:", mutereason)
                 .addField("Time", `${ms(ms(time), { long: true })}`)
+                .setThumbnail(message.author.avatarURL)
+                .setFooter(`${message.guild.name}`, message.guild.iconURL);
             let mutechannel = bot.channels.find(c => c.name === "log-mute-chat-voice-move")
             if (!mutechannel) return;
             mutechannel.send(muteembed)
