@@ -978,7 +978,6 @@ client.on('messageDelete', (msg) => {
     .then(logs => {
 
       let user = logs.entries.first().executor;
-      var reason = logs.entries.first().reason;      
 
 
       const embed = new Discord.RichEmbed()
@@ -988,8 +987,8 @@ client.on('messageDelete', (msg) => {
       .addField('**Message:**', `\`\`\`${msg.cleanContent}\`\`\``)
       .setThumbnail(msg.author.displayAvatarURL)
       .setFooter(`${guild.name}`, guild.iconURL);
-      if(reason) {
-        embed.addField("Reason:", reason)
+      if(user) {
+        embed.addField("Reason:", user)
         }
       channel.send( { embed : embed } )
 
