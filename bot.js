@@ -988,7 +988,7 @@ client.on('messageDelete', (msg) => {
       .setThumbnail(msg.author.displayAvatarURL)
       .setFooter(`${guild.name}`, guild.iconURL);
       if(user) {
-        embed.addField("Reason:", user)
+        embed.addField("**By:**", user)
         }
       channel.send( { embed : embed } )
 
