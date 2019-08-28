@@ -983,7 +983,7 @@ client.on('messageDelete', (msg) => {
       const embed = new Discord.RichEmbed()
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL)
       .setTimestamp()
-      .setDescription(`:wastebasket: **Message Deleted** ${user == msg.author ? '' : ` **by**: ${user}`}`)
+      .setDescription(`:wastebasket: **Message Deleted** ${user == msg.author ? '' : ` **by**: ${user}`} in ${msg.channel}`)
       .addField('**Message:**', `\`\`\`${msg.cleanContent}\`\`\``)
       .setThumbnail(msg.author.displayAvatarURL)
       .setFooter(`${guild.name}`, guild.iconURL);
