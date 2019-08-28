@@ -978,22 +978,26 @@ client.on('messageDelete', (msg) => {
     .then(logs => {
 
       let user = logs.entries.first().executor;
+      var reason = logs.entries.first().reason;      
 
 
       const embed = new Discord.RichEmbed()
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL)
       .setTimestamp()
-      .setDescription(`:wastebasket: **Message Deleted** ${user == msg.author ? '' : ` **by**: ${user}`} in ${msg.channel}`)
+      .setDescription(`:wastebasket: **Message Deleted** <@${msg.author.id}> in ${msg.channel}`)
       .addField('**Message:**', `\`\`\`${msg.cleanContent}\`\`\``)
       .setThumbnail(msg.author.displayAvatarURL)
       .setFooter(`${guild.name}`, guild.iconURL);
-
+      if(reason) {
+        embed.addField("Reason:", reason)
+        }
       channel.send( { embed : embed } )
 
 
     })
 
 })
+
 
 client.on('messageUpdate', (oldmsg, newmsg) => {
 
@@ -1016,7 +1020,7 @@ client.on('messageUpdate', (oldmsg, newmsg) => {
       const embed = new Discord.RichEmbed()
       .setAuthor(`${newmsg.author.tag}`, newmsg.author.displayAvatarURL)
       .setTimestamp()
-      .setDescription(`:pencil2:  **Message Updated** `)
+      .setDescription(`:pencil2:  **Message Updated** in ${newmsg.channel} `)
       .addField('**Old Message:**', `\`\`\`${oldmsg.cleanContent}\`\`\``)
       .addField('**New Message:**', `\`\`\`${newmsg.cleanContent}\`\`\``)
       .setThumbnail(newmsg.author.displayAvatarURL)
