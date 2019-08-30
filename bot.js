@@ -225,16 +225,7 @@ msg.delete();
 })
 }
 });
-client.on('message', message => {
-    var tag = "pic";
-    var prefix = "#";
-    if(message.content.startsWith(prefix + "صور")){
-	    if (message.author.bot) return undefined;
-    let pic = message.member.guild.roles.find('name', tag)
-  message.member.addRole(pic).then(() => message.channel.send("**تم اعطائك رتبة الصور بنجاح** <a:event:589081992788705291>"))
-    
-    }
-  });
+
     
                     client.on("message", message => {
                          var prefix = "-";
@@ -472,6 +463,18 @@ client.on('guildMemberAdd', (member) => {
       let autorole = member.guild.roles.find(r => r.name === "Horror");
       member.addRole(autorole, reasonn)
       });
+client.on('message', message => {
+    var tag = "pic";
+	var reasonn = "PicRole"
+
+    var prefix = "#";
+    if(message.content.startsWith(prefix + "صور")){
+	    if (message.author.bot) return undefined;
+    let pic = message.member.guild.roles.find('name', tag)
+  message.member.addRole(pic, reasonn).then(() => message.channel.send("**تم اعطائك رتبة الصور بنجاح** <a:event:589081992788705291>"))
+    
+    }
+  });
 
 client.on('message', async message => {
             if(message.content.includes('discord.gg')){ 
