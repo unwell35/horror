@@ -150,6 +150,36 @@ message.author.send(`**مدة الرابط : يـوم
 message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة**");
 }
 });
+
+
+client.on('message', msg => {
+  var prefix = "-";  
+  if (msg.content.startsWith(prefix + 'user')) { 
+      if (msg.author.bot) return
+      if (!msg.guild) return msg.reply('**:x: - This Command is only done on Servers**')
+      msg.guild.fetchInvites().then(invites => { 
+          let personalInvites = invites.filter(i => i.inviter.id === msg.author.id)
+          let inviteCount = personalInvites.reduce((p, v) => v.uses + p, 0)
+        var roles = msg.member.roles.map(roles => `**${roles.name}|**`).join(` `)
+      let pixeluser = new Discord.RichEmbed() 
+      .setColor('#3d8cf7')
+      .setTitle(':clipboard: | User Info') 
+      .setAuthor(msg.author.username,msg.author.avatarURL)
+      .addField('**• Name :**', msg.author.username,true)
+      .addField('**• Tag :**', msg.author.discriminator,true)
+      .addField('**• ID :**', msg.author.id,true)
+      .addField('**• Joined At :**', moment(msg.joinedAt).format('D/M/YYYY h:mm a '),true)
+      .addField('**• Created At :**', moment(msg.joinedAt).format('D/M/YYYY h:mm a '),true)
+      .addField('**• Total invites :**', inviteCount,true)
+      .addField('**• Roles :**', roles)
+      .setTimestamp() 
+      msg.channel.sendEmbed(pixeluser).then(c => {
+              }) 
+          })
+      }
+ 
+     
+}); 
 client.on('message', message => {
 if(!message.channel.guild) return;
 var prefix = "-";
