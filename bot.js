@@ -225,7 +225,26 @@ msg.delete();
 })
 }
 });
-
+client.on("message", message => {
+	var prefix = "-";
+if(message.content.startsWith(prefix + "avatar")){
+	    if(message.author.id != '479090634813341696') return;
+if(message.author.bot || message.channel.type == "dm") return;
+var args = message.content.split(" ")[1];
+var avt = args || message.author.id;
+client.fetchUser(avt)
+.then((user) => {
+avt = user
+let avtEmbed = new Discord.RichEmbed()
+.setColor("#36393e")
+.setAuthor(`${avt.username}'s Avatar`, message.author.avatarURL)
+.setImage(avt.avatarURL)
+.setFooter(`Avt.`, message.client.user.avatarURL);
+message.channel.send(avtEmbed);
+})
+.catch(() => message.channel.send(`Error`));
+} 
+});
     
                     client.on("message", message => {
                          var prefix = "-";
