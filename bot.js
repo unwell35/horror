@@ -1185,17 +1185,11 @@ client.on('guildMemberAdd', member => {
   .setAuthor(member.user.tag, member.user.avatarURL)
   .setThumbnail(member.user.avatarURL)
   .setDescription(`<@${member.user.id}> **joined the server.**`)
-  .addField('**Days In Discord:**', `${Days(member.user.createdAt)}`)
+  .addField('**Days In Discord:**', `${moment(member.createdAt).fromNow()}`)
   .setTimestamp()
  
   logChannel.send(newMember);
 });
-function Days(date) {
-    let now = new Date();
-    let diff = now.getTime() - date.getTime();
-    let days = Math.floor(diff / 86400000);
-    return days + (days == 1 ? " day" : " days") + " ago";
-}
 
 client.on('guildMemberRemove', member => {
   var logChannel = member.guild.channels.find(c => c.name === 'log-join-leave');
