@@ -158,17 +158,19 @@ client.on('message', msg => {
   if (msg.content.startsWith(prefix + 'user')) { 
       if (msg.author.bot) return
       if (!msg.guild) return msg.reply('**:x: - This Command is only done on Servers**')
+	  var args = msg.content.split(" ")[1];
+	  var avt = args || msg.author.id;
       msg.guild.fetchInvites().then(invites => { 
-          let personalInvites = invites.filter(i => i.inviter.id === msg.author.id)
+          let personalInvites = invites.filter(i => i.inviter.id === msg.avt.id)
           let inviteCount = personalInvites.reduce((p, v) => v.uses + p, 0)
         var roles = msg.member.roles.map(roles => `**${roles.name}|**`).join(` `)
       let pixeluser = new Discord.RichEmbed() 
       .setColor('#3d8cf7')
       .setTitle(':clipboard: | User Info') 
-      .setAuthor(msg.author.username,msg.author.avatarURL)
-      .addField('**• Name :**', msg.author.username,true)
-      .addField('**• Tag :**', msg.author.discriminator,true)
-      .addField('**• ID :**', msg.author.id,true)
+      .setAuthor(msg.avt.username,msg.avt.avatarURL)
+      .addField('**• Name :**', msg.avt.username,true)
+      .addField('**• Tag :**', msg.avt.discriminator,true)
+      .addField('**• ID :**', msg.avt.id,true)
       .addField('**• Joined At :**', moment(msg.joinedAt).format('D/M/YYYY h:mm a '),true)
       .addField('**• Created At :**', moment(msg.joinedAt).format('D/M/YYYY h:mm a '),true)
       .addField('**• Total invites :**', inviteCount,true)
