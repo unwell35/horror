@@ -154,7 +154,7 @@ message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة*
 
 client.on("message", msg => {
 var prefix = "-";
-		    if(message.author.id != '479090634813341696') return;
+		    if(msg.author.id != '479090634813341696') return;
 let men = msg.mentions.members.first()
 if(!men || !men.voiceChannel) return;
 if(msg.content === prefix+"vkick") {
