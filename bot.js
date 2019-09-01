@@ -151,7 +151,32 @@ message.author.send(`**مدة الرابط : يـوم
 message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة**");
 }
 });
+    
+client.on("message", message => {
+  let men = message.mentions.users.first();
+  if(message.content.startsWith(prefix + "vkick")) {
+    try {
+    if(!men) {
+      message.channel.send("**الرجاء اخيار شخص لطرده !**");
+      return;
+    }
+    if(!message.guild.member(men).voiceChannel) return message.channel.send("المراد طرده ليس في الغرف الصوتيه!");
+if(message.author.id != '479090634813341696') return;
+    if(!message.guild.me.hasPermission("MOVE_MEMBERS")) return message.channel.send("ليست لدي الصلاحيه لسحب الاعضاء");
+       if(!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("ليست لدي الصلاحيات لانشاء رومات صوتيه")
 
+    message.guild.createChannel(men.username, "voice").then(c => {
+      message.guild.member(men).setVoiceChannel(c.id)
+    setTimeout(() => {
+      c.delete()
+    }, 100)
+    });
+    message.channel.send(`**لقد تم طرده من الرومات الصوتيه \`\`${men.username}\`\`**`)
+} catch (e) {
+  message.channel.send("لا يمكنني القيام بذلك بسبب الصلاحيات او ما شابه");
+}
+  }
+});
 client.on("message", msg => {
 var prefix = "-";
 let men = msg.mentions.members.first()
