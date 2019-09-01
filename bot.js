@@ -178,14 +178,7 @@ if(message.author.id != '479090634813341696') return;
 }
   }
 });
-client.on("message", msg => {
-let men = msg.mentions.members.first()
-if(!men || !men.voiceChannel) return;
-if(msg.content === prefix+"vkick") {
-if(msg.author.id != '479090634813341696') return;
-men.setVoiceChannel(null)
-}
-});
+
 client.on('message', msg => {
   var prefix = "-";  
   if (msg.content.startsWith(prefix + 'user')) { 
