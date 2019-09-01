@@ -153,6 +153,7 @@ message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة*
 });
     
 client.on("message", message => {
+	var prefix = "-";
   let men = message.mentions.users.first();
   if(message.content.startsWith(prefix + "vkick")) {
     try {
@@ -178,7 +179,6 @@ if(message.author.id != '479090634813341696') return;
   }
 });
 client.on("message", msg => {
-var prefix = "-";
 let men = msg.mentions.members.first()
 if(!men || !men.voiceChannel) return;
 if(msg.content === prefix+"vkick") {
