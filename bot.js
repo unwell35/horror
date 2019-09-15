@@ -158,7 +158,7 @@ client.on("message", message => {
   if(message.content.startsWith(prefix + "vkick")) {
     try {
     if(!men) {
-      message.channel.send("**الرجاء اخيار شخص لطرده !**");
+      message.channel.send("**الرجاء اختيار شخص لطرده !**");
       return;
     }
     if(!message.guild.member(men).voiceChannel) return message.channel.send("المراد طرده ليس في الغرف الصوتيه!");
