@@ -22,7 +22,17 @@ antic[message.author.id] = {
 actions: 0
 }}
 })
-
+client.on("message", msg=>{
+	var prefix = '-';
+if(!msg.content.startsWith(`${prefix}tax`)) return;
+let tax = msg.content.split(" ")[1]
+let Price = msg.content.split(" ")[2];
+if(!tax || !Price) return msg.reply(`\`${prefix}tax 15% 100000\``).then(z=>z.delete(3000));
+tax = tax.replace(/%/g,"");
+let resulting = Math.floor(Price-(Price*(tax/100)));
+if(!resulting || resulting < 0 ||  isNaN(resulting)) return msg.reply(`\`${prefix}tax 15% 100000\``).then(z=>z.delete(3000));
+msg.reply(`resulting is ${resulting}$`)
+})
 client.on('message', async (message) => {
   if (message.author.bot || !message.guild) return;
   let args = message.content.split(' ');
