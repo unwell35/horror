@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Image to use:</p>
+<img id="scream" width="512" height="512" src="https://images-ext-2.discordapp.net/external/iK_NBkEAF8zyHo5t5WtOl5kX6qEtUt_ZT5M0o3NLy3U/https/discordapp.com/assets/1cbd08c76f8af6dddce02c5138971129.png" alt="The Scream">
+
+<p>Canvas:</p>
+<canvas id="myCanvas" width="500" height="300" style="border:1px solid #d3d3d3; background-image: url(https://media.discordapp.net/attachments/498477125775392768/631610511687024652/welcome.png)";>
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script>
+window.onload = function() {
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  var img = document.getElementById("scream");
+  var gradient = ctx.createLinearGradient(0, 0,300, 0);
+gradient.addColorStop("0", "Cornsilk");
+gradient.addColorStop("0.5", "DeepPink");
+gradient.addColorStop("1.0", "LightSteelBlue");
+                         ctx.font = '20px Ubuntu';
+                       ctx.fontSize = '20px';
+                       ctx.fillStyle = gradient;
+                       ctx.shadowColor = '#000000';
+       ctx.shadowOffsetY = 3;
+       ctx.shadowBlur = 2;
+                       ctx.textAlign = "center";
+                       ctx.fillText(`You are Theuser`, 350, 170);
+  
+                          ctx.beginPath();
+ctx.translate (11, -31,);
+ctx.scale (1.17, 1.17);
+
+
+                       ctx.arc(100, 155, 85, 0, Math.PI*2, false); 
+                                                                     ctx.closePath();
+
+                                              ctx.clip();
+  ctx.drawImage(img, 5, 60,190, 190,);
+
+}
+</script>
+
+<p><strong>Note:</strong> The canvas tag is not supported in Internet 
+Explorer 8 and earlier versions.</p>
+
+</body>
+</html>
