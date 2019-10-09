@@ -157,8 +157,8 @@ client.on('message', message => {
    }).then(invite => {
 message.author.send(invite.url)})
 message.author.send(`**مدة الرابط : يـوم
-عدد استخدامات الرابط : 5**`).catch(error => message.reply('**خاصك مقفول**🔐'));
-message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة**");
+عدد استخدامات الرابط : 5**`)
+message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة**").catch(error => message.reply('**خاصك مقفول**🔐'));
 }
 });
    
