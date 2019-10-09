@@ -155,7 +155,7 @@ client.on('message', message => {
        maxUses: 5,
        maxAge: 86400
    }).then(invite => {
-message.author.send(invite.url)}).catch(error => message.reply('**خاصك مقفول**🔐'))
+message.author.send(invite.url)})
 message.author.send(`**مدة الرابط : يـوم
 عدد استخدامات الرابط : 5**`).catch(error => message.reply('**خاصك مقفول**🔐'));
 message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة**");
