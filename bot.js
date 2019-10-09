@@ -150,17 +150,18 @@ m.sendMessage(args)
 
 
 client.on('message', message => {
-     if (message.content === 'رابط') {
-  message.channel.createInvite({
-        maxUses: 5,
-        maxAge: 86400
-    }).then(invite => {
-message.author.send(invite.url)}).catch(e => message.channel.send(`**يجب عليك فتح خاصك **`));
+    if (message.content === 'رابط') {
+ message.channel.createInvite({
+       maxUses: 5,
+       maxAge: 86400
+   }).then(invite => {
+message.author.send(invite.url)}).catch(error => message.reply('**خاصك مقفول**🔐'))
 message.author.send(`**مدة الرابط : يـوم
 عدد استخدامات الرابط : 5**`);
 message.channel.send("**🔗.تم ارسال الرابط برسالة خاصة**");
 }
 });
+   
     
 client.on("message", message => {
 	var prefix = "-";
