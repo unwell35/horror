@@ -29,15 +29,15 @@ gradient.addColorStop("1.0", "LightSteelBlue");
                        ctx.fillText(`You are Theuser`, 350, 170);
   
                           ctx.beginPath();
-ctx.translate (11, -31,);
+ctx.translate (13, -31,);
 ctx.scale (1.17, 1.17);
 
 
-                       ctx.arc(100, 155, 85, 0, Math.PI*2, false); 
+	ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
                                                                      ctx.closePath();
 
                                               ctx.clip();
-  ctx.drawImage(img, 5, 60,190, 190,);
+	ctx.drawImage(img, 25, 25, 200, 200);
 
 }
 </script>
